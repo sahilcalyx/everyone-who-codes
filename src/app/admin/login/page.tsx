@@ -13,8 +13,25 @@ export default function AdminLoginPage() {
   const [step, setStep] = useState(1); // 1: Send OTP, 2: Verify OTP
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [attempts, setAttempts] = useState(0);
+  const [lockUntil, setLockUntil] = useState<number | null>(null);
+  const [countdown, setCountdown] = useState(0);
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  useEffect(() => {
+    if (lockUntil) {
+      const interval = setInterval(() => {
+        const remaining = Math.max(0, Math.ceil((lockUntil - Date.now()) / 1000));
+        setCountdown(remaining);
+        if (remaining === 0) {
+          setLockUntil(null);
+          setAttempts(0);
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [lockUntil]);
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,12 +42,23 @@ export default function AdminLoginPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
+      const data = await res.json();
       if (res.ok) {
         setStep(2);
-        setMessage("OTP sent to your email (and logged in console).");
+        setAttempts(0);
+        setMessage("OTP sent to your email.");
+      } else {
+        const newAttempts = attempts + 1;
+        setAttempts(newAttempts);
+        if (newAttempts >= 3) {
+          setLockUntil(Date.now() + 60000);
+          setMessage("Security Lockout: System paused for 60s");
+        } else {
+          setMessage(`${data.error || "Access Denied"} (${3 - newAttempts} attempts remaining)`);
+        }
       }
     } catch (err) {
-      setMessage("Failed to send OTP.");
+      setMessage("Gateway connection failure");
     } finally {
       setLoading(false);
     }
@@ -149,20 +177,32 @@ export default function AdminLoginPage() {
                       />
                     </div>
                   </div>
-                  <Button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full h-16 rounded-2xl bg-slate-950 text-white font-black uppercase tracking-widest italic flex items-center justify-center gap-3 hover:bg-slate-900 active:scale-[0.98] transition-all"
-                  >
-                    {loading ? (
-                      "Initializing..."
-                    ) : (
-                      <>
-                        Invoke OTP
-                        <ArrowRight className="h-5 w-5" />
-                      </>
+                  <div className="space-y-4">
+                    <Button
+                      type="submit"
+                      disabled={loading || !!lockUntil}
+                      className="w-full h-16 rounded-2xl bg-slate-950 text-white font-black uppercase tracking-widest italic flex items-center justify-center gap-3 hover:bg-slate-900 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {lockUntil ? (
+                        <>
+                          Locked ({countdown}s)
+                          <Lock className="h-4 w-4 animate-pulse" />
+                        </>
+                      ) : loading ? (
+                        "Initializing..."
+                      ) : (
+                        <>
+                          Invoke OTP
+                          <ArrowRight className="h-5 w-5" />
+                        </>
+                      )}
+                    </Button>
+                    {message && (
+                      <p className="text-[11px] text-center text-red-500 font-extrabold uppercase tracking-widest animate-pulse">
+                        {message}
+                      </p>
                     )}
-                  </Button>
+                  </div>
                 </motion.form>
               ) : (
                 <motion.form
