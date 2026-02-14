@@ -12,71 +12,9 @@ import { Mentors } from "@/components/sections/Mentors"
 import { Investment } from "@/components/sections/Investment"
 import { FAQ } from "@/components/sections/FAQ"
 import { Footer } from "@/components/sections/Footer"
-import { RegistrationModal } from "@/components/RegistrationModal"
-import { Button } from "@/components/ui/Button"
+import { RegistrationModal } from "@/components/modals/RegistrationModal"
 
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = React.useState(false)
-
-  const openModal = () => setIsModalOpen(true)
-  const closeModal = () => setIsModalOpen(false)
-
-  // Override the default button behavior in components to open modal
-  // This is a bit of a hack for the sake of this single-page demo
-  // In a real app, we'd pass the openModal function down via props or context
-  React.useEffect(() => {
-    const handleRegisterClick = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      if (target.innerText.includes("Register") || target.innerText.includes("Reserve")) {
-        // If it's a link to stripe (from Investment component), let it be handled there or intercept
-        // For this demo, let's intercept all main CTAs if we want the modal first
-        // But the requirements said "Button links to Stripe placeholder" for Investment section
-        // And "Modal popup when clicking Register" in Functional Requirements
-        // Let's assume the "Reserve Your Spot" in header and "Register Now" in hero open the modal
-        // And the Investment section button links directly to Stripe as per specific requirement
-
-        // Actually functional requirements say: "Modal popup when clicking Register", "Stripe redirect after submit"
-        // So I should intercept ALL registration attempts to show the modal first.
-
-        e.preventDefault()
-        e.stopPropagation()
-        openModal()
-      }
-    }
-
-    // Attaching listeners to buttons is tricky with hydration. 
-    // Instead, I'll wrap the page content and pass the handler if components supported it, 
-    // or just rely on the specific components using a shared context or prop.
-    // For simplicity in this "assemble" step, I will modify the relevant components to accept an `onRegister` prop
-    // OR just use a global event listener for demonstration which is messy.
-
-    // Better approach: I'll manually wire up the `Hero` and `Header` to open modal?
-    // The previous components strictly had internal logic or no logic.
-    // I should have injected the handler.
-    // Let's update the components to accept an onClick or similar, OR just clone them with new props if possible (not easy with server/client split).
-
-    // DECISION: I will update the Header and Hero components to accept an `onRegister` prop in a subsequent step if needed, 
-    // but since I already wrote them to standard buttons, I might need to edit them.
-    // Wait, the requirements said "CTA Buttons with hover animations".
-    // I'll stick to editing the components to trigger the modal, OR
-    // I'll just use the `openModal` in the `Investment` button if I can pass it.
-
-    // Actually, I can just rewrite the `Hero` and `Header` imports to be wrappers that inject the handler? No.
-    // I will edit `Header` and `Hero` to use a global context or just simple prop passing if I can edit them.
-    // Since I can't easily edit them all at once without multiple tool calls, 
-    // I'll add a simple client-side event bus or just straightforward prop drilling if I update the files.
-
-    // Let's TRY to use a Context Provider to expose `openModal` to all components without prop drilling every single one.
-    // But creation of context requires a new file.
-
-    // Simpler: I'll just re-write the Header/Hero calls here to include the prop IF I had defined them. I didn't.
-    // I'll just rely on the "Investment" section linking to Stripe directly as per text "Button links to Stripe placeholder".
-    // AND "Modal popup when clicking Register" -> This might refer to the "Register Now" buttons in Hero/Header.
-
-    // Let's update Header and Hero to take `onRegister` prop.
-
-  }, [])
-
   return (
     <main className="min-h-screen bg-background font-sans anti-aliased selection:bg-primary/20">
       <Header />
@@ -114,9 +52,11 @@ export default function Home() {
           <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
             Join hundreds of engineers who've transformed their interview preparation and landed offers at top tech companies.
           </p>
-          <Button size="lg" className="h-14 px-8 text-lg font-bold">
-            Join the Workshop →
-          </Button>
+          <RegistrationModal>
+            <button className="h-14 px-8 text-lg font-bold bg-primary text-white rounded-xl hover:brightness-105 transition-all shadow-xl shadow-primary/20">
+              Join the Workshop →
+            </button>
+          </RegistrationModal>
           <p className="mt-6 text-sm text-yellow-500 font-medium">
             Remember: This session will NOT be recorded — Register now to secure your spot
           </p>
@@ -124,42 +64,6 @@ export default function Home() {
       </section>
 
       <Footer />
-
-      <RegistrationModal isOpen={isModalOpen} onClose={closeModal} />
-
-      {/* 
-        Temporary overlay to capture clicks for demonstration purposes since props weren't wired up.
-        In a real app, I'd pass `onRegister={openModal}` to Header, Hero, etc.
-        For this quick turnaround, I'll using a Global Click Listener approach in a separate component or just update the files.
-        
-        I will UPDATE Header.tsx and Hero.tsx to accept an onRegister prop in the next step to make this functional.
-      */}
-      <ClickHandler openModal={openModal} />
     </main>
   )
-}
-
-function ClickHandler({ openModal }: { openModal: () => void }) {
-  React.useEffect(() => {
-    const handleRegister = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      // Check if clicked element is a button and has specific text
-      if (target.tagName === 'BUTTON' && (
-        target.innerText.includes("Register") ||
-        target.innerText.includes("Reserve") ||
-        target.innerText.includes("Join")
-      )) {
-        // If it's the investment button (which links to stripe directly usually), we override it to show modal first
-        // as per "Modal popup when clicking Register" requirement + "Stripe redirect after submit".
-        e.preventDefault()
-        e.stopPropagation()
-        openModal()
-      }
-    }
-
-    document.addEventListener('click', handleRegister, true)
-    return () => document.removeEventListener('click', handleRegister, true)
-  }, [openModal])
-
-  return null
 }

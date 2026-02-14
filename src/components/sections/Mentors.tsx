@@ -3,6 +3,7 @@
 
 import { Card, CardContent, CardHeader } from "@/components/ui/Card"
 import { Badge } from "lucide-react"
+import { RegistrationModal } from "@/components/modals/RegistrationModal"
 
 export function Mentors() {
     const mentors = [
@@ -15,11 +16,6 @@ export function Mentors() {
             name: "Sandeep Das",
             role: "Special Guest Expert",
             description: "Business Storytelling & Negotiation Leadership Coach, Best-Selling Author, and Visiting Faculty at IIM Bangalore and IIM Lucknow. Expert in the skills AI cannot replace: communication, clarity, and influence.",
-        },
-        {
-            name: "FAANG Engineers",
-            role: "Senior Engineers & Hiring Managers",
-            description: "Experienced engineers who conduct and clear interviews at top tech companies. They understand today's AI-influenced hiring landscape and know what makes candidates stand out.",
         },
     ]
 
@@ -46,6 +42,16 @@ export function Mentors() {
                             </CardContent>
                         </Card>
                     ))}
+                </div>
+
+                <div className="mt-16 text-center">
+                    <RegistrationModal>
+                        <button
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-black uppercase italic tracking-tighter rounded-2xl hover:brightness-105 transition-all shadow-xl shadow-primary/20"
+                        >
+                            Reserve Your Spot Now
+                        </button>
+                    </RegistrationModal>
                 </div>
             </div>
         </section>

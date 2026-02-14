@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { Check } from "lucide-react";
+import { RegistrationModal } from "@/components/modals/RegistrationModal";
 
 export function Investment() {
   const features = [
@@ -9,7 +10,7 @@ export function Investment() {
     "Clear direction on AI-aware interview prep + system design",
     "Resume & LinkedIn optimization insights",
     "Proven job search strategies that work",
-    "Live Q&A with FAANG engineers and hiring managers",
+    "Live Q&A with industry experts and hiring managers",
     "6 Exclusive bonuses (Templates, Guides, Discounts)",
     "Actionable roadmap you can use immediately",
   ];
@@ -68,15 +69,13 @@ export function Investment() {
           </div>
 
           <div className="text-center">
-            <Button
-              size="lg"
-              className="w-full md:w-auto h-14 px-8 text-lg font-bold bg-primary hover:brightness-105 text-primary-foreground shadow-xl hover:shadow-2xl transition-all"
-              onClick={() =>
-                window.open("https://stripe.com/dummy-link", "_blank")
-              }
-            >
-              Reserve Your Spot Now
-            </Button>
+            <RegistrationModal>
+              <button
+                className="w-full md:w-auto h-14 px-8 text-lg font-bold bg-primary hover:brightness-105 text-white rounded-xl shadow-xl hover:shadow-2xl transition-all"
+              >
+                Reserve Your Spot Now
+              </button>
+            </RegistrationModal>
             <p className="mt-4 text-sm text-slate-400">
               Secure checkout • 100% Satisfaction Guarantee
             </p>

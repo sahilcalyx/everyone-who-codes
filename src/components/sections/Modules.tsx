@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/Accordion";
+import { RegistrationModal } from "@/components/modals/RegistrationModal";
 
 export function Modules() {
   const modules = [
@@ -98,6 +99,16 @@ export function Modules() {
             </AccordionItem>
           ))}
         </Accordion>
+
+        <div className="mt-16 text-center">
+          <RegistrationModal>
+            <button
+              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-black uppercase italic tracking-tighter rounded-2xl hover:brightness-105 transition-all shadow-xl shadow-primary/20"
+            >
+              Reserve Your Spot Now
+            </button>
+          </RegistrationModal>
+        </div>
       </div>
     </section>
   );

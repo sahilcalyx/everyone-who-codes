@@ -80,14 +80,19 @@ export const IPhoneDateTimePicker: React.FC<IPhoneDateTimePickerProps> = ({
   }, [value, type, availableOptions]);
 
   useEffect(() => {
+    let newValue = "";
     if (type === "date") {
-      onChange(`${selectedMonth} ${selectedDay}, ${selectedYear}`);
+      newValue = `${selectedMonth} ${selectedDay}, ${selectedYear}`;
     } else if (type === "time") {
       if (availableOptions?.time) {
-        onChange(selectedTimeSlot);
+        newValue = selectedTimeSlot;
       } else {
-        onChange(`${selectedHour}:${selectedMinute} ${selectedPeriod} IST`);
+        newValue = `${selectedHour}:${selectedMinute} ${selectedPeriod} IST`;
       }
+    }
+
+    if (newValue && newValue !== value) {
+      onChange(newValue);
     }
   }, [
     selectedMonth,
@@ -97,6 +102,9 @@ export const IPhoneDateTimePicker: React.FC<IPhoneDateTimePickerProps> = ({
     selectedMinute,
     selectedPeriod,
     selectedTimeSlot,
+    type,
+    value,
+    availableOptions
   ]);
 
   return (

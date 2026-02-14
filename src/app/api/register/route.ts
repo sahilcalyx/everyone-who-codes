@@ -5,7 +5,7 @@ import { User, Settings } from "@/lib/models";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, surname, email, contactNumber, expert, date, time } = body;
+    const { name, lastname, email, contactNumber, expert, date, time } = body;
 
     await dbConnect();
 
@@ -15,10 +15,10 @@ export async function POST(req: Request) {
 
     const newUser = await User.create({
       name,
-      surname,
+      lastname,
       email,
       contactNumber,
-      expert,
+      expert: expert || "N/A",
       sessionDate: date,
       sessionTime: time,
       fees,

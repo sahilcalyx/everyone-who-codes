@@ -5,7 +5,7 @@ import { Settings } from "@/lib/models";
 export async function GET() {
   try {
     await dbConnect();
-    
+
     // Fetch workshop fee
     let feeSetting = await Settings.findOne({ key: "workshop_fee" });
     if (!feeSetting) {
@@ -25,12 +25,15 @@ export async function GET() {
 
     // Fetch workshop slots
     let slotsSetting = await Settings.findOne({ key: "workshop_slots" });
+    const defaultSlots = [
+      { id: "slot-1", date: "March 20, 2026", time: "10:30 AM CST" },
+    ];
+
     if (!slotsSetting) {
-      const defaultSlots = [
-        { id: "slot-1", date: "October 24, 2026", time: "6:00 PM IST" },
-        { id: "slot-2", date: "October 25, 2026", time: "11:00 AM IST" },
-      ];
       slotsSetting = await Settings.create({ key: "workshop_slots", value: defaultSlots });
+    } else if (Array.isArray(slotsSetting.value) && slotsSetting.value.length === 0) {
+      await Settings.updateOne({ key: "workshop_slots" }, { value: defaultSlots });
+      slotsSetting.value = defaultSlots;
     }
 
     return NextResponse.json({

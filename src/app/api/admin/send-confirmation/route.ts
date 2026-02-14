@@ -50,11 +50,11 @@ export async function POST(req: Request) {
     const mailOptions = {
       from: `"Workshop Admin" <${process.env.SMTP_USER}>`,
       to: user.email,
-      subject: "Workshop Confirmation & Zoom Link",
+      subject: `Workshop Confirmation - ${user.name} ${user.lastname}`,
       html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e2e8f0; rounded-lg: 12px;">
-          <h2 style="color: #10b981; margin-bottom: 20px;">Workshop Registration Confirmed!</h2>
-          <p>Hello <strong>${user.name} ${user.surname}</strong>,</p>
+        <div style="font-family: sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
+          <h2 style="color: #10b981;">Workshop Registration Confirmed!</h2>
+          <p>Hello <strong>${user.name} ${user.lastname}</strong>,</p>
           <p>Your registration for the Live Tech Interview Workshop has been confirmed. We're excited to have you join us!</p>
           
           <div style="background-color: #f8fafc; padding: 20px; border-radius: 8px; margin: 25px 0;">

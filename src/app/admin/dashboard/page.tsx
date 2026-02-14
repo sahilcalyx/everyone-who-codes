@@ -16,6 +16,7 @@ import {
   Settings as SettingsIcon,
   Clock,
   Lock,
+  Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IPhoneDateTimePicker } from "@/components/ui/IPhoneDateTimePicker";
@@ -37,9 +38,11 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   // New state for dynamic settings
-  const [activeTab, setActiveTab] = useState<"registrants" | "settings">(
+  const [activeTab, setActiveTab] = useState<"registrants" | "contacts" | "settings">(
     "registrants",
   );
+  const [contacts, setContacts] = useState<any[]>([]);
+  const [selectedContact, setSelectedContact] = useState<any>(null);
   const [settings, setSettings] = useState({
     fee: 15,
     experts: [] as any[],
@@ -47,6 +50,7 @@ export default function AdminDashboard() {
   });
   const [newExpert, setNewExpert] = useState({ name: "", role: "" });
   const [newSlot, setNewSlot] = useState({ date: "", time: "" });
+  const [inputMode, setInputMode] = useState<"picker" | "manual">("picker");
   const [updating, setUpdating] = useState(false);
 
   // Confirmation Email States
@@ -55,10 +59,28 @@ export default function AdminDashboard() {
   const [customMessage, setCustomMessage] = useState("");
   const [sendingEmail, setSendingEmail] = useState(false);
 
+  // Delete Confirmation States
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState<{ id: string; type: "user" | "contact" } | null>(null);
+  const [deleting, setDeleting] = useState(false);
+
   useEffect(() => {
     fetchUsers();
+    fetchContacts();
     fetchSettings();
   }, []);
+
+  const fetchContacts = async () => {
+    try {
+      const res = await fetch("/api/admin/contacts");
+      const json = await res.json();
+      if (json.success) {
+        setContacts(json.data);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const fetchUsers = async () => {
     try {
@@ -136,16 +158,14 @@ export default function AdminDashboard() {
     }
 
     const updatedSlots = [
-      ...settings.slots,
+      ...(settings.slots || []),
       { id: Date.now().toString(), ...newSlot },
     ];
     updateSetting("workshop_slots", updatedSlots);
-    // Keep the date, reset the time to encourage adding more slots for the same day
-    setNewSlot({ ...newSlot, time: "" });
   };
 
   const handleRemoveSlot = (id: string) => {
-    const updatedSlots = settings.slots.filter((s) => s.id !== id);
+    const updatedSlots = (settings.slots || []).filter((s) => s.id !== id);
     updateSetting("workshop_slots", updatedSlots);
   };
 
@@ -181,8 +201,47 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleDeleteItem = async () => {
+    if (!itemToDelete) return;
+
+    setDeleting(true);
+    try {
+      const endpoint = itemToDelete.type === "user"
+        ? `/api/admin/users/${itemToDelete.id}`
+        : `/api/admin/contacts/${itemToDelete.id}`;
+
+      const res = await fetch(endpoint, { method: "DELETE" });
+      const data = await res.json();
+
+      if (data.success) {
+        if (itemToDelete.type === "user") {
+          fetchUsers();
+          if (selectedUser?._id === itemToDelete.id) setSelectedUser(null);
+        } else {
+          fetchContacts();
+          if (selectedContact?._id === itemToDelete.id) setSelectedContact(null);
+        }
+        setShowDeleteDialog(false);
+        setItemToDelete(null);
+      } else {
+        alert(data.error || "Failed to delete item");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred during deletion");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   const filteredUsers = users.filter((u) =>
-    `${u.name} ${u.surname} ${u.email}`
+    `${u.name} ${u.lastname} ${u.email}`
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase()),
+  );
+
+  const filteredContacts = contacts.filter((c) =>
+    `${c.name} ${c.lastname} ${c.email} ${c.subject}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase()),
   );
@@ -212,6 +271,12 @@ export default function AdminDashboard() {
             onClick={() => setActiveTab("registrants")}
             icon={Users}
             label="Registrants"
+          />
+          <SidebarLink
+            active={activeTab === "contacts"}
+            onClick={() => setActiveTab("contacts")}
+            icon={Mail}
+            label="Contact Requests"
           />
           <SidebarLink
             active={activeTab === "settings"}
@@ -329,7 +394,7 @@ export default function AdminDashboard() {
                               >
                                 <td className="px-6 py-4">
                                   <div className="font-bold text-slate-900">
-                                    {user.name} {user.surname}
+                                    {user.name} {user.lastname}
                                   </div>
                                   <div className="text-xs text-slate-500 font-medium">
                                     {user.email}
@@ -355,7 +420,7 @@ export default function AdminDashboard() {
                                     ${user.fees}
                                   </div>
                                 </td>
-                                <td className="px-6 py-4 text-right">
+                                <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
                                   <Button
                                     onClick={() => setSelectedUser(user)}
                                     variant="ghost"
@@ -363,6 +428,18 @@ export default function AdminDashboard() {
                                     className="rounded-xl text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary/10 transition-all border border-transparent hover:border-primary/20"
                                   >
                                     View
+                                  </Button>
+                                  <Button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setItemToDelete({ id: user._id, type: "user" });
+                                      setShowDeleteDialog(true);
+                                    }}
+                                    variant="ghost"
+                                    size="sm"
+                                    className="rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 p-2"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
                                   </Button>
                                 </td>
                               </tr>
@@ -405,7 +482,7 @@ export default function AdminDashboard() {
                                 Full Name
                               </p>
                               <p className="text-xl font-bold text-slate-950 tracking-tight">
-                                {selectedUser.name} {selectedUser.surname}
+                                {selectedUser.name} {selectedUser.lastname}
                               </p>
                             </div>
                             <div className="space-y-1">
@@ -448,6 +525,121 @@ export default function AdminDashboard() {
                       <p className="text-xs font-bold uppercase tracking-widest">
                         Select user to view details
                       </p>
+                    </div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </div>
+          ) : activeTab === "contacts" ? (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-8">
+                <Card className="rounded-[2rem] border-slate-100 shadow-xl overflow-hidden min-h-[600px]">
+                  <CardHeader className="bg-white border-b border-slate-50 p-6 flex flex-row items-center justify-between">
+                    <div>
+                      <CardTitle className="text-2xl font-black text-slate-950 uppercase italic tracking-tighter">
+                        Contact Messages
+                      </CardTitle>
+                      <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">
+                        Inquiries from website
+                      </p>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="p-0">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left">
+                        <thead>
+                          <tr className="bg-slate-50/50 border-b border-slate-50">
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                              Name
+                            </th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                              Subject
+                            </th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                              Date
+                            </th>
+                            <th className="px-6 py-4 text-right"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredContacts.map((contact) => (
+                            <tr key={contact._id} className="border-b border-slate-50 hover:bg-slate-50/30 transition-colors group text-sm">
+                              <td className="px-6 py-4">
+                                <div className="font-bold text-slate-900">{contact.name} {contact.lastname}</div>
+                                <div className="text-xs text-slate-500 font-medium">{contact.email}</div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="font-bold text-slate-700">{contact.subject}</div>
+                              </td>
+                              <td className="px-6 py-4">
+                                <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">
+                                  {new Date(contact.createdAt).toLocaleDateString()}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
+                                <Button
+                                  onClick={() => setSelectedContact(contact)}
+                                  variant="ghost"
+                                  size="sm"
+                                  className="rounded-xl text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary/10"
+                                >
+                                  View
+                                </Button>
+                                <Button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setItemToDelete({ id: contact._id, type: "contact" });
+                                    setShowDeleteDialog(true);
+                                  }}
+                                  variant="ghost"
+                                  size="sm"
+                                  className="rounded-xl text-red-500 hover:text-red-600 hover:bg-red-50 p-2"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </Button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+              <div className="lg:col-span-4">
+                <AnimatePresence mode="wait">
+                  {selectedContact ? (
+                    <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
+                      <Card className="rounded-[2rem] border-slate-100 shadow-2xl overflow-hidden border-2 border-slate-50">
+                        <CardHeader className="bg-slate-900 text-white p-6 relative overflow-hidden">
+                          <CardTitle className="text-2xl font-black uppercase italic tracking-tighter flex items-center justify-between relative z-10">
+                            Message Details
+                            <button onClick={() => setSelectedContact(null)} className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center transition-all">✕</button>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-8 space-y-6">
+                          <div className="space-y-1">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">From</p>
+                            <p className="text-lg font-bold text-slate-950">{selectedContact.name} {selectedContact.lastname}</p>
+                            <p className="text-xs font-medium text-slate-500">{selectedContact.email}</p>
+                          </div>
+                          <div className="space-y-1">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Subject</p>
+                            <p className="text-sm font-bold text-slate-900">{selectedContact.subject}</p>
+                          </div>
+                          <div className="space-y-2 pt-4 border-t border-slate-100">
+                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Message</p>
+                            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 text-sm font-medium text-slate-700 leading-relaxed whitespace-pre-wrap">
+                              {selectedContact.message}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ) : (
+                    <div className="h-full min-h-[400px] border-2 border-dashed border-slate-200 rounded-[2rem] flex flex-col items-center justify-center p-8 text-center text-slate-400">
+                      <Mail className="h-12 w-12 mb-4 opacity-20" />
+                      <p className="text-xs font-bold uppercase tracking-widest">Select a message to read</p>
                     </div>
                   )}
                 </AnimatePresence>
@@ -580,10 +772,10 @@ export default function AdminDashboard() {
                             <Button
                               onClick={() => handleRemoveExpert(expert.id)}
                               variant="ghost"
-                              size="sm"
-                              className="text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                              size="icon"
+                              className="h-8 w-8 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                             >
-                              Remove
+                              <Trash2 className="h-4 w-4" />
                             </Button>
                           </div>
                         ))}
@@ -603,33 +795,91 @@ export default function AdminDashboard() {
                   </CardHeader>
                   <CardContent className="p-6 space-y-6 flex-1">
                     <div className="space-y-4">
+                      <div className="flex items-center justify-center p-1 bg-slate-100 rounded-2xl w-fit mx-auto mb-4">
+                        <button
+                          onClick={() => setInputMode("picker")}
+                          className={cn(
+                            "px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                            inputMode === "picker" ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                          )}
+                        >
+                          Wheel Picker
+                        </button>
+                        <button
+                          onClick={() => setInputMode("manual")}
+                          className={cn(
+                            "px-6 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                            inputMode === "manual" ? "bg-white text-slate-900 shadow-sm" : "text-slate-400 hover:text-slate-600"
+                          )}
+                        >
+                          Manual Input
+                        </button>
+                      </div>
+
                       <div className="space-y-4 bg-slate-50/50 p-6 rounded-[2.5rem] border border-slate-100 shadow-inner">
-                        <div className="space-y-3">
-                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
-                            Set Session Date
-                          </label>
-                          <IPhoneDateTimePicker
-                            type="date"
-                            value={newSlot.date}
-                            onChange={(val) => setNewSlot({ ...newSlot, date: val })}
-                          />
+                        {inputMode === "picker" ? (
+                          <>
+                            <div className="space-y-3">
+                              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
+                                Set Session Date
+                              </label>
+                              <IPhoneDateTimePicker
+                                type="date"
+                                value={newSlot.date}
+                                onChange={(val) => setNewSlot(prev => ({ ...prev, date: val }))}
+                              />
+                            </div>
+                            <div className="space-y-3">
+                              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
+                                Set Session Time
+                              </label>
+                              <IPhoneDateTimePicker
+                                type="time"
+                                value={newSlot.time}
+                                onChange={(val) => setNewSlot(prev => ({ ...prev, time: val }))}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="space-y-3">
+                              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
+                                Custom Date String
+                              </label>
+                              <Input
+                                placeholder="e.g. March 25, 2026"
+                                value={newSlot.date}
+                                onChange={(e: any) => setNewSlot(prev => ({ ...prev, date: e.target.value }))}
+                                className="h-14 rounded-2xl border-slate-200 focus:ring-amber-500/20"
+                              />
+                            </div>
+                            <div className="space-y-3">
+                              <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
+                                Custom Time String
+                              </label>
+                              <Input
+                                placeholder="e.g. 11:00 AM CST"
+                                value={newSlot.time}
+                                onChange={(e: any) => setNewSlot(prev => ({ ...prev, time: e.target.value }))}
+                                className="h-14 rounded-2xl border-slate-200 focus:ring-amber-500/20"
+                              />
+                            </div>
+                          </>
+                        )}
+
+                        <div className="p-4 bg-white rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center space-y-1">
+                          <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Current Selection</p>
+                          <p className="text-sm font-bold text-slate-900">{newSlot.date || "Not set"}</p>
+                          <p className="text-[10px] font-black text-amber-500 uppercase tracking-widest">{newSlot.time || "Not set"}</p>
                         </div>
-                        <div className="space-y-3">
-                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-4">
-                            Set Session Time
-                          </label>
-                          <IPhoneDateTimePicker
-                            type="time"
-                            value={newSlot.time}
-                            onChange={(val) => setNewSlot({ ...newSlot, time: val })}
-                          />
-                        </div>
+
                         <Button
                           onClick={handleAddSlot}
-                          disabled={updating}
-                          className="w-full h-14 rounded-3xl bg-slate-900 text-white font-black uppercase text-xs tracking-[0.2em] shadow-xl hover:shadow-2xl hover:bg-black transition-all"
+                          disabled={updating || !newSlot.date.trim() || !newSlot.time.trim()}
+                          className="w-full h-14 rounded-3xl bg-slate-900 text-white font-black uppercase text-xs tracking-[0.2em] shadow-xl hover:shadow-2xl hover:bg-black transition-all flex items-center justify-center gap-2"
                         >
-                          Add Session
+                          <Clock className="w-4 h-4" />
+                          Add Session to List
                         </Button>
                       </div>
                     </div>
@@ -668,12 +918,14 @@ export default function AdminDashboard() {
                                       {slot.time}
                                     </p>
                                   </div>
-                                  <button
+                                  <Button
                                     onClick={() => handleRemoveSlot(slot.id)}
-                                    className="h-8 w-8 flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                   >
-                                    ✕
-                                  </button>
+                                    <Trash2 className="h-4 w-4" />
+                                  </Button>
                                 </div>
                               ))}
                             </div>
@@ -703,7 +955,7 @@ export default function AdminDashboard() {
             </DialogTitle>
             <DialogDescription className="text-slate-400 font-medium">
               Confirm registration for {selectedUser?.name}{" "}
-              {selectedUser?.surname}
+              {selectedUser?.lastname}
             </DialogDescription>
           </DialogHeader>
           <div className="p-8 space-y-6">
@@ -758,7 +1010,7 @@ export default function AdminDashboard() {
             >
               {sendingEmail ? (
                 <div className="flex items-center gap-2">
-                   <motion.div
+                  <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                   >
@@ -769,6 +1021,45 @@ export default function AdminDashboard() {
               ) : (
                 "Send Email Now"
               )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
+        <DialogContent className="sm:max-w-[400px] rounded-[2rem] border-slate-100 shadow-2xl p-0 overflow-hidden">
+          <DialogHeader className="bg-red-500 text-white p-8">
+            <DialogTitle className="text-2xl font-black uppercase italic tracking-tighter flex items-center gap-3">
+              <Trash2 className="w-6 h-6 outline-none" />
+              Confirm Delete
+            </DialogTitle>
+            <DialogDescription className="text-red-100 font-medium opacity-90">
+              This action cannot be undone. This will permanently remove the record from the database.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="p-8 bg-white text-center">
+            <p className="text-slate-600 font-bold mb-2">Are you sure you want to delete this {itemToDelete?.type}?</p>
+          </div>
+          <DialogFooter className="p-8 bg-slate-50 border-t border-slate-100 flex flex-row gap-3">
+            <Button
+              variant="ghost"
+              onClick={() => {
+                setShowDeleteDialog(false);
+                setItemToDelete(null);
+              }}
+              className="flex-1 h-14 rounded-2xl font-bold text-slate-500 hover:bg-slate-200"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleDeleteItem}
+              disabled={deleting}
+              className={cn(
+                "flex-[2] h-14 rounded-2xl font-black uppercase italic tracking-widest text-xs transition-all",
+                deleting ? "bg-slate-400" : "bg-red-500 hover:bg-red-600 shadow-lg shadow-red-200",
+              )}
+            >
+              {deleting ? "Deleting..." : "Delete Permanently"}
             </Button>
           </DialogFooter>
         </DialogContent>
