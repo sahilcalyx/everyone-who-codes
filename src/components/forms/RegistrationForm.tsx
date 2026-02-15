@@ -39,7 +39,14 @@ export function RegistrationForm() {
                 if (json.success) {
                     setExperts(json.data.experts);
                     setFee(json.data.fee);
-                    setSlots(json.data.slots || []);
+                    const fetchedSlots = json.data.slots || [];
+                    setSlots(fetchedSlots);
+
+                    // Set default selection if slots exist
+                    if (fetchedSlots.length > 0) {
+                        setSelectedDate(fetchedSlots[0].date);
+                        setFormData(prev => ({ ...prev, slotId: fetchedSlots[0].id }));
+                    }
                 }
             } catch (err) {
                 console.error("Failed to fetch settings:", err);

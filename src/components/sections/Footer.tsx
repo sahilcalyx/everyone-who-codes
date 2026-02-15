@@ -17,7 +17,7 @@ export function Footer() {
 
         <div className="flex items-center gap-6">
           <a
-            href="https://www.linkedin.com/company/everyone-who-code/?viewAsMember=true"
+            href="https://www.instagram.com/everyonewhocodes?igsh=YnJmMWdpMWR1NnB2"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-400 hover:text-primary transition-colors"
@@ -43,7 +43,7 @@ export function Footer() {
             <span className="sr-only">YouTube</span>
           </a>
           <a
-            href="https://www.instagram.com/everyonewhocode/"
+            href="https://www.instagram.com/everyonewhocodes?igsh=YnJmMWdpMWR1NnB2"
             target="_blank"
             rel="noopener noreferrer"
             className="text-slate-400 hover:text-primary transition-colors"

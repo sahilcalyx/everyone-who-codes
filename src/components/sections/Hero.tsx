@@ -43,9 +43,9 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 flex flex-col leading-[1.1]"
+              className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-950 flex flex-nowrap items-center justify-center lg:justify-start gap-x-[0.2em] leading-[1.1] whitespace-nowrap"
             >
-              <TextRoll duration={0.6} className="mb-2">
+              <TextRoll duration={0.6}>
                 From Resume to
               </TextRoll>
               <TextRoll className="text-primary bg-clip-text bg-gradient-to-r from-primary to-emerald-500">
@@ -90,8 +90,8 @@ export function Hero() {
               />
               <StatMiniCard
                 icon={BadgeCheck}
-                label="Practical"
-                value="100% Practical"
+                label="When"
+                value="20th March at 10:30am CST"
                 colorClass="bg-amber-50 text-amber-600"
               />
             </motion.div>

@@ -62,7 +62,7 @@ export function InterviewPrepGuide() {
                                     </RegistrationModal>
                                     <p className="mt-4 text-sm text-slate-500 font-medium flex items-center gap-2">
                                         <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                                        Available for free during this session only
+                                        Available for FREE after this LIVE workshop
                                     </p>
                                 </div>
                             </div>

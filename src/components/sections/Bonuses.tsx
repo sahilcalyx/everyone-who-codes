@@ -37,9 +37,9 @@ export function Bonuses() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                <div className="flex flex-wrap justify-center gap-6 max-w-5xl mx-auto">
                     {bonuses.map((bonus, i) => (
-                        <Card key={i} className="bg-white/60 backdrop-blur-md border border-white/40 shadow-lg hover:shadow-xl hover:bg-white/80 transition-all duration-300">
+                        <Card key={i} className="w-full md:w-[calc(50%-12px)] bg-white/60 backdrop-blur-md border border-white/40 shadow-lg hover:shadow-xl hover:bg-white/80 transition-all duration-300">
                             <CardHeader className="flex flex-row items-center gap-4 space-y-0">
                                 <div className="p-3 rounded-lg bg-primary/10 text-primary">
                                     <bonus.icon className="h-6 w-6" />

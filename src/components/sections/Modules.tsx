@@ -46,12 +46,12 @@ export function Modules() {
             Led by Lakshmi, Founder of Everyone Who Codes:
           </p>
           <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-            <li>How to position your resume for recruiter screens- ATS</li>
-            <li>How LinkedIn impacts interview calls</li>
+            <li>How to position your resume for recruiter screens? ATS</li>
+            <li>How LinkedIn impacts interview calls?</li>
             <li>Highlighting skills that align with tech roles</li>
-            <li>How to network with purpose and use referrals effectively</li>
-            <li>How to approach recruiters without sounding generic</li>
-            <li>Common mistakes that block interviews</li>
+            <li>How to network with purpose and use referrals effectively?</li>
+            <li>How to approach recruiters without sounding generic?</li>
+            <li>Common mistakes that block interviews?</li>
           </ul>
         </div>
       ),
@@ -72,7 +72,7 @@ export function Modules() {
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900">
-            What You'll Learn
+            What You Will Learn
           </h2>
           <p className="text-xl text-slate-600">
             Four comprehensive modules packed into one transformative hour

@@ -10,44 +10,45 @@ import {
 export function FAQ() {
   const faqs = [
     {
-      question: "Will there be a recording?",
-      answer: "No, this is a LIVE-ONLY session. Since we dive into real tactics and interactive Q&A, you need to attend live to get the full value. No recordings will be shared later.",
+      question: "Will this workshop be recorded?",
+      answer: "No, this is a LIVE-ONLY session on Zoom. We don't record to encourage active participation and protect the privacy of attendees during Q&A. You must attend live to get the full value.",
+    },
+
+    {
+      question: "What if I am a complete beginner?",
+      answer: "Perfect! This workshop is designed for engineers at ALL levels, from students just starting out to mid-career professionals looking to level up. We cover fundamentals while providing advanced insights.",
     },
     {
-      question: "What if I can't attend after registering?",
-      answer: "We offer a 100% satisfaction guarantee. If you register but cannot attend for a valid reason, or if you attend and feel the session didn't add value, just let us know and we'll issue a full refund.",
+      question: "How is this different from free YouTube content",
+      answer: "This is a structured, comprehensive workshop by industry experts who've actually hired at top companies. You get live interaction, personalized Q&A, curated insights from multiple mentors, and $600+ in bonuses — all for $15. YouTube can't give you that.",
     },
     {
-      question: "Is this workshop suitable for beginners?",
-      answer: "Yes! Whether you're a final-year student or a working professional, the core preparation strategies we share are applicable to anyone targeting tech roles.",
+      question: "What platform will we use?",
+      answer: "The workshop will be conducted live on Zoom. You'll receive the link via email after registration. Make sure to test your audio before the session.",
     },
     {
-      question: "How does the Resume Review work?",
-      answer: "After the workshop, the first 10 attendees will get a personalized resume review. This is a high-value service (usually $499) where we give you a 15-min video breakdown of how to improve your resume for ATS and recruiters.",
+      question: "When will I receive the bonuses?",
+      answer: "The $100 mentorship discount, free resume review along with the Interview Prep Guide are available to attendees immediately after the workshop ends.",
     },
     {
-      question: "Where will the workshop happen?",
-      answer: "The workshop will be held live on Zoom. You will receive the joining link via email once you complete your registration.",
+      question: "What happens after the workshop?",
+      answer: "You'll walk away with clear action items and a roadmap for your interview prep. Many attendees choose to continue with our 1:1 mentorship, mock interviews, or structured career guidance programs — but that's completely optional.",
     },
     {
-      question: "How will I receive the bonuses?",
-      answer: "All workshop bonuses, including the Interview Prep Guide and Mentorship discounts, will be shared with attendees at the end of the LIVE session.",
+      question: "Is this workshop right for non-technical roles?",
+      answer: "While the focus is on software engineering roles, the resume, LinkedIn, and job search strategies are valuable for anyone in tech. System design discussions are specific to technical roles.",
     },
     {
-      question: "What should I do after the workshop?",
-      answer: "You'll leave with a clear 90-day action plan. You can choose to implement it yourself or join our elite mentorship program for hands-on guidance.",
+      question: "Can I get a refund if I can't attend?",
+      answer: "Due to the low price point ($15) and the exclusive bonuses provided, we don't offer refunds.  ",
     },
     {
-      question: "Is this and only for technical roles?",
-      answer: "The workshop focuses on Software Engineering, Data, ML, and AI roles. However, the networking and resume strategies are valuable for anyone in the tech ecosystem.",
+      question: "How long will I have access to the bonuses?",
+      answer: "Digital bonuses (templates, guides) are yours to keep forever. The $100 mentorship discount is valid for 30 days after the workshop. The Interview Prep Guide and free resume review call details will be shared within 7 days of the workshop.",
     },
     {
       question: "Who are the mentors?",
-      answer: "The session is led by Lakshmi Marikumar (Founder, EWC) and Rajesh Pandey (Salesforce, ex-Microsoft), bringing over 14+ years of industry experience.",
-    },
-    {
-      question: "Can I ask my specific career questions?",
-      answer: "Absolutely! The final 15-20 minutes are dedicated entirely to a LIVE Q&A session where you can ask your specific questions.",
+      answer: "The workshop is led by Lakshmi Marikumar (Founder of EWC, ex-Twitter/AWS recruiter), Special guest Rajesh Pandey ( Mentor, Salesforce, Ex- Microsoft)",
     },
   ];
 

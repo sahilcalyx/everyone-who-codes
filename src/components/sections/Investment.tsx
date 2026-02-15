@@ -9,7 +9,7 @@ export function Investment() {
     "60-Min Intensive LIVE Workshop",
     "System Design & DSA Prep Strategy",
     "Resume & LinkedIn Optimization",
-    "$1200+ in Exclusive Bonuses",
+    "$600+ in Exclusive Bonuses",
     "LIVE Q&A with Experts",
     "Professional Interview Prep Guide",
     "$100 Off Mentorship Discount",
@@ -42,7 +42,7 @@ export function Investment() {
               </span>
             </div>
             <p className="text-sm text-green-600 font-medium">
-              One-time investment + $1200+ in bonuses
+              One-time investment + $600+ in bonuses
             </p>
           </div>
 

@@ -53,7 +53,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-5xl font-bold mb-6 max-w-4xl mx-auto text-slate-900">Ready to Master Tech Interviews in the AI Era?</h2>
           <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
-            Join hundreds of engineers who've transformed their interview preparation and landed offers at top tech companies.
+            Join hundreds of engineers who have transformed their interview preparation and landed offers at top tech companies.
           </p>
           <RegistrationModal>
             <button className="h-14 px-8 text-lg font-bold bg-primary text-white rounded-xl hover:brightness-105 transition-all shadow-xl shadow-primary/20">

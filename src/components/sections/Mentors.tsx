@@ -15,7 +15,7 @@ export function Mentors() {
         {
             name: "Rajesh Pandey",
             role: "Lead Member of Technical Staff, Salesforce | Ex-Microsoft",
-            description: "14+ years building and scaling distributed systems powering high-traffic platforms across payments, e-commerce, and cloud. Mentored engineers, helping them master DSA, system design, and convert strong preparation into real offers.",
+            description: "14+ years building and scaling distributed systems powering high-traffic platforms across payments, e-commerce, and cloud. Mentored 50+ engineers, helping them master DSA, system design, and convert strong preparation into real offers.",
         },
     ]
 
