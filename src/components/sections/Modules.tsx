@@ -12,28 +12,29 @@ export function Modules() {
   const modules = [
     {
       id: "module-1",
-      title: "MODULE 01: How Tech Interviews Work Today (AI-Aware View)",
+      title: "MODULE 01: Tech Interviews in the AI Era — What's Really Changed?",
       content: (
         <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-          <li>Led by experienced industry mentors</li>
-          <li>How interviews are structured in 2026</li>
-          <li>What interviewers evaluate beyond coding</li>
-          <li>How AI tools influence hiring and preparation</li>
-          <li>How to stand out without over-prepping</li>
+          <li>The Preparation Shift: When Everyone Has AI</li>
+          <li>What Interviewers Actually Evaluate in 2026</li>
+          <li>The AI Trap: Surface-Level Confidence vs Real Understanding</li>
+          <li>The New Differentiator: Signal Over Polish</li>
         </ul>
       ),
     },
     {
       id: "module-2",
-      title: "MODULE 02: System Design & Technical Preparation Essentials",
+      title: "MODULE 02: Mastering Technical Interviews — From DSA to System Design",
       content: (
-        <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-          <li>Key system design patterns companies actually test</li>
-          <li>How to think through scalability and trade-offs</li>
-          <li>What to focus on first — and what to ignore</li>
-          <li>How to structure your preparation timeline</li>
-          <li>How strong candidates think during technical interviews</li>
-        </ul>
+        <div className="space-y-4">
+          <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+            <li><strong>DSA Mastery Beyond Patterns:</strong> How strong candidates think, adapt, and survive twists — not just memorize solutions</li>
+            <li><strong>LLD That Feels Production-Ready:</strong> Designing clean APIs, extensible components, and writing code interviewers trust</li>
+            <li><strong>HLD With Real Trade-Off Thinking:</strong> Scalability, bottlenecks, and why most "perfect" designs fail under probing</li>
+            <li><strong>Preparation Timeline That Compounds:</strong> What to do first, what to delay, and how to structure prep for maximum ROI</li>
+            <li><strong>Interview Intelligence:</strong> Communicating your thought process, handling pressure, and turning good answers into strong hires</li>
+          </ul>
+        </div>
       ),
     },
     {
@@ -45,9 +46,9 @@ export function Modules() {
             Led by Lakshmi, Founder of Everyone Who Codes:
           </p>
           <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
-            <li>How to position your resume for recruiter screens</li>
+            <li>How to position your resume for recruiter screens- ATS</li>
             <li>How LinkedIn impacts interview calls</li>
-            <li>Highlighting skills that align with AI-influenced roles</li>
+            <li>Highlighting skills that align with tech roles</li>
             <li>How to network with purpose and use referrals effectively</li>
             <li>How to approach recruiters without sounding generic</li>
             <li>Common mistakes that block interviews</li>
@@ -60,8 +61,7 @@ export function Modules() {
       title: "MODULE 04: Live Q&A",
       content: (
         <p className="text-muted-foreground">
-          Ask real questions. Get real answers from industry experts who've been
-          in your shoes.
+          Ask questions & get real answers from industry experts.
         </p>
       ),
     },

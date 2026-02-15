@@ -7,24 +7,19 @@ import { BookOpen, Bot, DollarSign, FileText } from "lucide-react"
 export function Bonuses() {
     const bonuses = [
         {
-            icon: BookOpen,
-            title: "Interview Prep Guide",
-            description: "50 Most Common Behavioral Questions with STAR Framework answers + System Design cheat sheet",
-        },
-        {
-            icon: Bot,
-            title: "AI Tools for Job Search",
-            description: "How to use ChatGPT for resume optimization, AI interview prep tools, and prompt templates library",
-        },
-        {
             icon: DollarSign,
             title: "$100 Off Mentorship",
             description: "First 50 registrants get $100 off their first 1:1 mentorship session (valid 30 days)",
         },
         {
             icon: FileText,
-            title: "Free Resume Review worth $499",
-            description: "Complimentary 15-min resume review for attendees who submit within 7 days",
+            title: "Free Resume Review worth $250",
+            description: "Complimentary 45-min resume review for the first 10 attendees who join this workshop",
+        },
+        {
+            icon: BookOpen,
+            title: "Interview Prep Guide worth $250",
+            description: "Crack Any Tech Interview — Free 45-Min Deep Dive on the Right Preparation Strategy.",
         },
     ]
 
@@ -38,7 +33,7 @@ export function Bonuses() {
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900">Exclusive Workshop Bonuses</h2>
                     <p className="text-xl text-slate-600">
-                        Every attendee receives these valuable resources worth $1200+
+                        Every attendee receives these valuable resources worth $600+
                     </p>
                 </div>
 
@@ -60,7 +55,7 @@ export function Bonuses() {
 
                 <div className="mt-12 text-center">
                     <div className="inline-block bg-gradient-to-r from-primary/10 to-emerald-500/10 text-primary-foreground px-6 py-3 rounded-full border border-primary/20 font-medium">
-                        Register before March 10th to unlock all bonuses worth $2500
+                        Register before March 1st to unlock all the Bonuses worth $600+
                     </div>
                 </div>
             </div>

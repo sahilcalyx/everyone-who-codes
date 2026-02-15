@@ -6,13 +6,14 @@ import { RegistrationModal } from "@/components/modals/RegistrationModal";
 
 export function Investment() {
   const features = [
-    "60-minute LIVE workshop on Zoom (not recorded)",
-    "Clear direction on AI-aware interview prep + system design",
-    "Resume & LinkedIn optimization insights",
-    "Proven job search strategies that work",
-    "Live Q&A with industry experts and hiring managers",
-    "6 Exclusive bonuses (Templates, Guides, Discounts)",
-    "Actionable roadmap you can use immediately",
+    "60-Min Intensive LIVE Workshop",
+    "System Design & DSA Prep Strategy",
+    "Resume & LinkedIn Optimization",
+    "$1200+ in Exclusive Bonuses",
+    "LIVE Q&A with Experts",
+    "Professional Interview Prep Guide",
+    "$100 Off Mentorship Discount",
+    "100% Satisfaction Guarantee",
   ];
 
   return (
@@ -41,7 +42,7 @@ export function Investment() {
               </span>
             </div>
             <p className="text-sm text-green-600 font-medium">
-              One-time investment + $1500+ in bonuses
+              One-time investment + $1200+ in bonuses
             </p>
           </div>
 

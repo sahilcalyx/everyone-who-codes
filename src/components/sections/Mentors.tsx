@@ -13,9 +13,9 @@ export function Mentors() {
             description: "Seasoned technical recruiter with experience hiring for top companies like Twitter, AWS, and leading startups in the US. Launched EWC in 2024 to support engineers with real job opportunities, industry insights, and expert mentorship.",
         },
         {
-            name: "Sandeep Das",
-            role: "Special Guest Expert",
-            description: "Business Storytelling & Negotiation Leadership Coach, Best-Selling Author, and Visiting Faculty at IIM Bangalore and IIM Lucknow. Expert in the skills AI cannot replace: communication, clarity, and influence.",
+            name: "Rajesh Pandey",
+            role: "Lead Member of Technical Staff, Salesforce | Ex-Microsoft",
+            description: "14+ years building and scaling distributed systems powering high-traffic platforms across payments, e-commerce, and cloud. Mentored engineers, helping them master DSA, system design, and convert strong preparation into real offers.",
         },
     ]
 
@@ -29,7 +29,7 @@ export function Mentors() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                     {mentors.map((mentor, i) => (
                         <Card key={i} className="border bg-card overflow-hidden hover:shadow-lg transition-all duration-300">
                             <div className="h-2 bg-gradient-to-r from-primary to-emerald-500" />

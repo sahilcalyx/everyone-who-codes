@@ -35,8 +35,8 @@ export function Hero() {
               transition={{ duration: 0.6 }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest shadow-sm"
             >
-              <Sparkles className="h-3.5 w-3.5 animate-pulse" />
-              LIVE TECH INTERVIEW WORKSHOP
+              <div className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+              🔴 LIVE TECH INTERVIEW WORKSHOP
             </motion.div>
 
             <motion.h1
@@ -60,12 +60,14 @@ export function Hero() {
               className="space-y-4"
             >
               <h3 className="text-2xl md:text-3xl text-slate-800 font-semibold tracking-tight">
-                Tech Interviews in the Age of AI
+                Cracking Tech Interviews in the Age of AI
               </h3>
               <p className="text-lg md:text-xl text-slate-600 max-w-xl font-medium leading-relaxed">
-                Master the new rules of engagement. Elite preparation for the
-                modern software engineer. Practical tactics, zero fluff.
+                Learn how to prepare for today's tech interviews, where AI, problem-solving, and clarity matter more than ever.
               </p>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-yellow-50 border border-yellow-200 text-yellow-700 text-xs font-bold uppercase tracking-tight">
+                ⚠️ This session will NOT be recorded — Attend live to get the full value
+              </div>
             </motion.div>
 
             <motion.div
@@ -76,20 +78,20 @@ export function Hero() {
             >
               <StatMiniCard
                 icon={Clock}
-                label="Format"
-                value="60min Session"
+                label="Duration"
+                value="60min - Live on Zoom"
                 colorClass="bg-blue-50 text-blue-600"
               />
               <StatMiniCard
                 icon={DollarSign}
                 label="Investment"
-                value="One-Time $15"
+                value="$15 Early Bird"
                 colorClass="bg-emerald-50 text-emerald-600"
               />
               <StatMiniCard
                 icon={BadgeCheck}
-                label="Access"
-                value="Live Q&A"
+                label="Practical"
+                value="100% Practical"
                 colorClass="bg-amber-50 text-amber-600"
               />
             </motion.div>
@@ -141,7 +143,7 @@ export function Hero() {
                     Reserve Your Spot
                   </CardTitle>
                   <CardDescription className="text-slate-500 font-medium">
-                    Join 500+ engineers in this elite session.
+                    Register Now — Limited Seats
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="p-8">

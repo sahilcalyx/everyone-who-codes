@@ -13,48 +13,33 @@ export function Testimonials() {
 
   const testimonials = [
     {
-      name: "Vishal Kumar",
-      content: "I had a great conversation and got valuable insights from Lakshmi! She provided a thorough resume review, gave constructive feedback, and was very friendly throughout. She also helped me outline a solid 3-month plan to improve my skills and career prospects. Highly recommend for anyone looking for guidance!",
+      name: "Siddhesh Nair",
+      content: "I'm incredibly grateful for the guidance and support I received from Lakshmi. Right after graduating, I felt uncertain about how to best position myself in the job market. Lakshmi took the time to review my resume in detail, provide thoughtful feedback, and share actionable advice that made a real difference.",
       rating: 5
     },
     {
-      name: "Siddharth K",
-      content: "I truly appreciate some of the suggestions shared by Lakshmi Marikumar during the application process. I have secured multiple offers. Thanks again for your support and guidance.",
+      name: "Shivani Rupnawar",
+      content: "Great sessions. Appreciate how approachable and supportive Lakshmi was throughout the career guidance sessions. I will definitely recommend Lakshmi to anyone looking to get interview calls or refine their Resume/ LinkedIn.",
       rating: 5
     },
     {
-      name: "Siddhesh N",
-      content: "Lakshmi, Thanks to your incredible help with my resume and job search advice, I just landed a role, and I am starting soon. I couldn’t have done it without you, and I really appreciate all the guidance you gave me.",
+      name: "Nishal Pattan",
+      content: "I wanted to thank Lakshmi and the mentors in Everyone Who Codes. After being laid off from a big tech company, this step-by-step structured mentorship was perfect to land my next role in 90 days. I would highly recommend this program.",
       rating: 5
     },
     {
-      name: "Sai Keerthi",
-      content: "Thanks to Lakshmi, her mentoring and resume review transformed my job search, leading to three interviews and multiple offers. Her expertise is truly invaluable. Grateful for her guidance!",
+      name: "Bella Yu",
+      content: "Lakshmi reviewed my resume and I ended up getting PM internship interviews at IBM, Google, Adobe, and Microsoft. I'm happy to say I accepted an offer at a great tech company. Highly recommend working with her!",
       rating: 5
     },
     {
-      name: "Dwight Beadle",
-      content: "Lakshmi, Thanks to your incredible help with my resume and job search advice, I just landed a role, and I am starting soon. I couldn’t have done it without you, and I really appreciate all the guidance you gave me.",
+      name: "Rajesh (SDE-2 Candidate)",
+      content: "Rajesh helped me gain insights on the career path, resources and key skills. His ability to communicate things in a personalized and targeted manner is to be appreciated. His knowledge regarding designing systems is amazing and his guidance for SDE 2 interview preparation was simply valuable.",
       rating: 5
     },
     {
-      name: "Ryan Menghani",
-      content: "I’d highly recommend Lakshmi Marikumar. Lakshmi helped me immensely to land my current position. She is extremely passionate and most importantly, genuine – she cares tremendously for each of her candidates. Seriously, Lakshmi’s the real deal!",
-      rating: 5
-    },
-    {
-      name: "Akanksha",
-      content: "Lakshmi was very helpful. She listened to my problem, reviewed my LinkedIn, and immediately pointed out areas where my profile needed improvements. Also provided some great tips that I will be surely implement in my job search moving forward.",
-      rating: 5
-    },
-    {
-      name: "Vasudha Y",
-      content: "Lakshmi had given me valuable inputs and shared me with useful information. Very helpful",
-      rating: 5
-    },
-    {
-      name: "Harshit Kant",
-      content: "She is a strong force when it comes to resume and tech career suggestions",
+      name: "Shahraiz (Mock Attendee)",
+      content: "Shahraiz is very straightforward person in my mock interviews with him and he gives constructive feedback which is great to go back and build my basics in DSA. He is very supportive of my roadmap and roots for me to achieve my goals.",
       rating: 5
     }
   ];
@@ -98,7 +83,7 @@ export function Testimonials() {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight"
           >
-            Real Stories, <span className="text-primary italic">Real Success.</span>
+            Success Stories from <span className="text-primary italic">Our Community</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -107,8 +92,7 @@ export function Testimonials() {
             transition={{ delay: 0.2 }}
             className="text-lg text-slate-500 max-w-2xl mx-auto"
           >
-            Join hundreds of engineers who have transformed their careers with
-            expert resume reviews, interview prep, and strategic guidance.
+            Real results from engineers who transformed their careers with expert guidance
           </motion.p>
         </div>
 
